@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zanzee Pvt Ltd — Home Services, Sorted</title>
+<link rel="icon" type="image/png" href="assets/logo-full.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="logo"><img src="logo-mark.png" alt="Zanzee Pvt Ltd logo">ZAN ZEE</div>
+    <div class="nav-links">
+      <a href="#categories">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#trust">Why us</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="cartBtn" aria-label="Open cart">
+        🛒<span class="badge" id="cartBadge">0</span>
+      </button>
+      <a href="#" class="btn btn-primary" id="bookServiceBtn">Book a service</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="eyebrow">Now serving Bhiwadi &amp; nearby</span>
+    <h1>Home repairs,<br>booked like <em>flipping a switch.</em></h1>
+    <p class="lead">Electricians, plumbers, cleaners and more — verified, priced upfront, and at your door in under an hour.</p>
+    <form class="search-pill" id="heroSearch">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search for a service — wiring, tap leak, sofa assembly…" id="heroSearchInput">
+      <button type="submit">Search</button>
+    </form>
+    <div class="hero-stats">
+      <div class="stat"><b>40+</b><span>services on tap</span></div>
+      <div class="stat"><b>60 min</b><span>average arrival</span></div>
+      <div class="stat"><b>4.8★</b><span>avg. rating</span></div>
+    </div>
+  </div>
+  <div class="board" aria-hidden="true">
+    <div class="switch-tile on"><span class="ic">⚡</span><div class="lbl">Electrician</div><span class="toggle"></span></div>
+    <div class="switch-tile"><span class="ic">🔧</span><div class="lbl">Plumber</div><span class="toggle"></span></div>
+    <div class="switch-tile on"><span class="ic">🧹</span><div class="lbl">Cleaning</div><span class="toggle"></span></div>
+    <div class="switch-tile"><span class="ic">🛋️</span><div class="lbl">Furniture</div><span class="toggle"></span></div>
+  </div>
+</section>
+
+<section id="categories">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag-label">// select a service</span>
+        <h2>What can we fix today?</h2>
+      </div>
+      <p>Tap a panel to see what's inside — every job is priced before you book.</p>
+    </div>
+
+    <div class="cat-grid" id="catGrid"></div>
+    <div class="subcat-panel" id="subcatPanel">
+      <div class="subcat-scroll" id="subcatScroll"></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag-label">// <span id="svcCatLabel">popular</span></span>
+        <h2 id="svcHeading">Popular right now</h2>
+      </div>
+      <p>Upfront pricing, no site-visit surprises.</p>
+    </div>
+    <div class="svc-grid" id="svcGrid"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag-label">// how it works</span>
+        <h2>Three steps, one visit.</h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step plate">
+        <span class="num">01</span>
+        <h3>Pick your service</h3>
+        <p>Browse categories or search directly — see the fixed price before you commit.</p>
+      </div>
+      <div class="step plate">
+        <span class="num">02</span>
+        <h3>Choose a slot</h3>
+        <p>Same-day and next-day slots. We text you when your expert is on the way.</p>
+      </div>
+      <div class="step plate">
+        <span class="num">03</span>
+        <h3>Get it fixed</h3>
+        <p>Verified expert arrives, does the job, and it's covered by our service warranty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="tag-label">// why zanzee</span>
+        <h2>Built for trust, not just speed.</h2>
+      </div>
+    </div>
+    <div class="trust">
+      <div class="trust-item plate"><span class="ic">🪪</span><h4>Verified experts</h4><p>ID-checked and background-verified before they ever visit.</p></div>
+      <div class="trust-item plate"><span class="ic">🛡️</span><h4>Service warranty</h4><p>30-day warranty on workmanship for every completed job.</p></div>
+      <div class="trust-item plate"><span class="ic">💬</span><h4>Upfront pricing</h4><p>See the price per job — no vague "starting from" numbers.</p></div>
+      <div class="trust-item plate"><span class="ic">📍</span><h4>Local first</h4><p>Experts based in your neighbourhood, not routed from across town.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta plate">
+      <div>
+        <h2>Something broken right now?</h2>
+        <p>Call us directly for urgent electrical or plumbing breakdowns — we prioritise same-day visits.</p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="tel:+911234567890" class="btn btn-primary">📞 Call now</a>
+        <a href="#categories" class="btn btn-ghost">Browse services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo logo-footer"><img src="logo-full.png" alt="Zanzee Pvt Ltd logo"></div>
+        <p style="color:var(--text-faint); font-size:13px; margin-top:12px; max-width:240px;">Home services for the way India lives — booked in a tap, done by evening.</p>
+      </div>
+      <div>
+        <h5>SERVICES</h5>
+        <ul>
+          <li><a href="#" data-cat="electronic">Electrician</a></li>
+          <li><a href="#" data-cat="plumbing">Plumber</a></li>
+          <li><a href="#" data-cat="homeservices">Home cleaning</a></li>
+          <li><a href="#" data-cat="acappliances">AC &amp; appliances</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>COMPANY</h5>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#trust">Why us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Become an expert</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>CONTACT</h5>
+        <ul>
+          <li><a href="tel:+917851037445">+91 7851037445</a></li>
+          <li><a href="mailto:support@zanzee.in">support@zanzee.in</a></li>
+          <li><a href="#">B/FF/11 B Block Rajiv Gandhi Enclave Behind bus stand <br>Bhiwadi Alwar<br>301019</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zanzee Pvt Ltd. All rights reserved.</span>
+      <span class="watermark">Built by <b>Kivokora</b></span>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Cart">
+  <div class="drawer-head">
+    <h3>Your cart</h3>
+    <button class="icon-btn" id="closeDrawer" aria-label="Close cart">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Estimated total</span><b id="drawerTotal">₹0</b></div>
+    <button class="btn btn-primary" style="width:100%;" id="checkoutBtn">Request booking</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<div class="overlay" id="bookOverlay"></div>
+<div class="book-modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+  <div class="book-modal-head">
+    <div>
+      <span class="tag-label">// book a service</span>
+      <h3 id="bookModalTitle">Tell us what you need</h3>
+    </div>
+    <button class="icon-btn" id="closeBookModal" aria-label="Close booking form">✕</button>
+  </div>
+  <form class="book-form" id="bookForm">
+    <div class="field">
+      <label for="bkName">Full name</label>
+      <input type="text" id="bkName" name="name" placeholder="e.g. Rahul Sharma" required>
+    </div>
+    <div class="field">
+      <label for="bkPhone">Phone number</label>
+      <input type="tel" id="bkPhone" name="phone" placeholder="e.g. 98765 43210" pattern="[0-9+\s-]{7,15}" required>
+    </div>
+    <div class="field">
+      <label for="bkService">Service needed</label>
+      <select id="bkService" name="service" required>
+        <option value="" disabled selected>Select a service</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="bkDate">Preferred date</label>
+        <input type="date" id="bkDate" name="date" required>
+      </div>
+      <div class="field">
+        <label for="bkTime">Preferred time</label>
+        <input type="time" id="bkTime" name="time" required>
+      </div>
+    </div>
+    <div class="field">
+      <label for="bkAddress">Full address</label>
+      <textarea id="bkAddress" name="address" rows="3" placeholder="House / flat no., street, landmark, city, pincode" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:6px;">Request booking</button>
+  </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
