@@ -1,13 +1,13 @@
 /* ---------------- Data ---------------- */
 const CATEGORIES = [
-  { id:'electronic', name:'Electronic', icon:'⚡', sub:['Fans & Lighting','Wiring','Switch & Socket','Battery & Inverter','Stabilizer','Doorbell','MCB & Fuse'] },
-  { id:'plumbing', name:'Plumbing', icon:'🔧', sub:['Tap Repair','Pipe Leakage','Toilet & Flush','Water Tank','Drainage'] },
-  { id:'homedecor', name:'Home Decor', icon:'🛋️', sub:['Wall Art','Curtains','Lighting Decor','Furniture Styling'] },
-  { id:'homeservices', name:'Home Services', icon:'🧰', sub:['Book an Expert','Appliance Cleaning','Home Cleaning','Furniture Assembly','Drilling','Bath Fittings','Mandir','Minor Assembly & Drilling'] },
-  { id:'acappliances', name:'AC & Appliances', icon:'❄️', sub:['AC Service','AC Gas Refill','Fridge Repair','Washing Machine','Microwave'] },
-  { id:'packers', name:'Packers & Movers', icon:'🚚', sub:['Local Shifting','Packing Only','Vehicle Loading','Storage'] },
-  { id:'salon', name:'Salon at Home', icon:'💇', sub:['Haircut','Facial','Waxing','Massage'] },
-  { id:'others', name:'Others', icon:'✨', sub:['Pest Control','Painting','Carpentry','General Query'] },
+  { id:'electronic', name:'Electronic', icon:'⚡', accent:'gold', sub:['Fans & Lighting','Wiring','Switch & Socket','Battery & Inverter','Stabilizer','Doorbell','MCB & Fuse'] },
+  { id:'plumbing', name:'Plumbing', icon:'🔧', accent:'teal', sub:['Tap Repair','Pipe Leakage','Toilet & Flush','Water Tank','Drainage'] },
+  { id:'homedecor', name:'Home Decor', icon:'🛋️', accent:'primary', sub:['Wall Art','Curtains','Lighting Decor','Furniture Styling'] },
+  { id:'homeservices', name:'Home Services', icon:'🧰', accent:'gold', sub:['Book an Expert','Appliance Cleaning','Home Cleaning','Furniture Assembly','Drilling','Bath Fittings','Mandir','Minor Assembly & Drilling'] },
+  { id:'acappliances', name:'AC & Appliances', icon:'❄️', accent:'teal', sub:['AC Service','AC Gas Refill','Fridge Repair','Washing Machine','Microwave'] },
+  { id:'packers', name:'Packers & Movers', icon:'🚚', accent:'primary', sub:['Local Shifting','Packing Only','Vehicle Loading','Storage'] },
+  { id:'salon', name:'Salon at Home', icon:'💇', accent:'gold', sub:['Haircut','Facial','Waxing','Massage'] },
+  { id:'others', name:'Others', icon:'✨', accent:'teal', sub:['Pest Control','Painting','Carpentry','General Query'] },
 ];
 
 const SERVICES = [
@@ -35,18 +35,23 @@ let cart = [];
 
 /* ---------------- Render categories ---------------- */
 const catGrid = document.getElementById('catGrid');
-CATEGORIES.forEach(c=>{
+CATEGORIES.forEach((c, i)=>{
   const el = document.createElement('div');
-  el.className = 'cat-card plate';
+  el.className = `cat-card accent-${c.accent}`;
   el.dataset.cat = c.id;
+  el.style.setProperty('--stagger', i);
   el.innerHTML = `
+    <span class="cat-shine"></span>
     <div class="top-row">
-      <div class="cat-icon">${c.icon}</div>
+      <div class="cat-icon"><span>${c.icon}</span></div>
       <span class="cat-count">${c.sub.length} services</span>
     </div>
     <div>
       <h3>${c.name}</h3>
       <div class="cat-sub">${c.sub.slice(0,2).join(', ')}…</div>
+    </div>
+    <div class="cat-go">Explore
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </div>`;
   el.addEventListener('click', ()=> selectCategory(c.id));
   catGrid.appendChild(el);
@@ -269,3 +274,58 @@ document.querySelectorAll('[data-cat]').forEach(link=>{
 
 /* init default */
 selectCategory('electronic');
+
+/* ---------------- Hero board 3D tilt ---------------- */
+(function(){
+  const board = document.getElementById('heroBoard');
+  if(!board) return;
+  const wrap = board.closest('.board-wrap');
+  let raf = null;
+
+  function handleMove(e){
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;   // 0..1
+    const y = (e.clientY - rect.top) / rect.height;   // 0..1
+    const rotY = (x - 0.5) * -22 + -8;  // base -8deg + delta
+    const rotX = (y - 0.5) * 18 + 6;    // base 6deg + delta
+    if(raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(()=>{
+      board.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    });
+  }
+  function resetTilt(){
+    if(raf) cancelAnimationFrame(raf);
+    board.style.transform = 'rotateX(6deg) rotateY(-8deg)';
+  }
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    wrap.addEventListener('mousemove', handleMove);
+    wrap.addEventListener('mouseleave', resetTilt);
+  }
+})();
+
+/* ---------------- Service & category card 3D hover tilt ---------------- */
+function attachTilt(el, maxDeg){
+  el.addEventListener('mousemove', (e)=>{
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    const rx = (0.5 - py) * maxDeg;
+    const ry = (px - 0.5) * maxDeg;
+    el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    el.style.setProperty('--mx', `${px*100}%`);
+    el.style.setProperty('--my', `${py*100}%`);
+  });
+  el.addEventListener('mouseleave', ()=>{
+    el.style.transform = '';
+  });
+}
+if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+  const observer = new MutationObserver(()=>{
+    document.querySelectorAll('.svc-card:not([data-tilt])').forEach(el=>{
+      el.dataset.tilt = '1';
+      attachTilt(el, 6);
+    });
+  });
+  observer.observe(document.getElementById('svcGrid'), { childList:true });
+  document.querySelectorAll('.cat-card').forEach(el=> attachTilt(el, 5));
+}
