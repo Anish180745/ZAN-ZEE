@@ -1,3 +1,6 @@
+/* Always land on the hero on load/refresh, ignore the browser's remembered scroll position */
+if('scrollRestoration' in history){ history.scrollRestoration = 'manual'; }
+
 /* ---------------- Data ---------------- */
 const CATEGORIES = [
   { id:'electronic', name:'Electronic', icon:'⚡', accent:'gold', sub:['Fans & Lighting','Wiring','Switch & Socket','Battery & Inverter','Stabilizer','Doorbell','MCB & Fuse'] },
@@ -57,7 +60,8 @@ CATEGORIES.forEach((c, i)=>{
   catGrid.appendChild(el);
 });
 
-function selectCategory(id){
+function selectCategory(id, opts={}){
+  const { scroll:shouldScroll = true } = opts;
   activeCat = id; activeSub = null;
   document.querySelectorAll('.cat-card').forEach(c=> c.classList.toggle('active', c.dataset.cat===id));
   const cat = CATEGORIES.find(c=>c.id===id);
@@ -81,7 +85,9 @@ function selectCategory(id){
   document.getElementById('svcCatLabel').textContent = cat.name.toLowerCase();
   document.getElementById('svcHeading').textContent = cat.name;
   renderServices();
-  document.getElementById('services').scrollIntoView({behavior:'smooth', block:'start'});
+  if(shouldScroll){
+    document.getElementById('services').scrollIntoView({behavior:'smooth', block:'start'});
+  }
 }
 
 /* ---------------- Render services ---------------- */
@@ -272,8 +278,9 @@ document.querySelectorAll('[data-cat]').forEach(link=>{
   });
 });
 
-/* init default */
-selectCategory('electronic');
+/* init default — populate the services grid without scrolling away from the hero */
+selectCategory('electronic', { scroll:false });
+window.scrollTo(0, 0);
 
 /* ---------------- Hero board 3D tilt ---------------- */
 (function(){
@@ -328,4 +335,31 @@ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
   });
   observer.observe(document.getElementById('svcGrid'), { childList:true });
   document.querySelectorAll('.cat-card').forEach(el=> attachTilt(el, 5));
+  document.querySelectorAll('.live-card').forEach(el=> attachTilt(el, 7));
 }
+
+/* ---------------- Live service photo — depth parallax on hover ---------------- */
+(function(){
+  if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  document.querySelectorAll('.live-card').forEach(card=>{
+    const photo = card.querySelector('.live-photo img');
+    const badge = card.querySelector('.live-badge');
+    if(!photo) return;
+    let raf = null;
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;   // -0.5..0.5
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      if(raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(()=>{
+        photo.style.transform = `scale(1.14) translate(${px*-10}px, ${py*-8}px)`;
+        if(badge) badge.style.transform = `translate(${px*4}px, ${py*3}px)`;
+      });
+    });
+    card.addEventListener('mouseleave', ()=>{
+      if(raf) cancelAnimationFrame(raf);
+      photo.style.transform = '';
+      if(badge) badge.style.transform = '';
+    });
+  });
+})();
